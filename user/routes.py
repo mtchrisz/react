@@ -35,9 +35,17 @@ def get():
 
     return jsonify(users)
 
-@users.route('/', methods=['DELETE'])
-def delete():
-    pass
+@users.route('/<id>', methods=['DELETE'])
+def delete(id):
+
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("""delete from users where id = %s""", (id))
+    db.commit()
+
+    return jsonify({
+        'id': id
+    })
 
 @users.route('/', methods=['PUT'])
 def put():
