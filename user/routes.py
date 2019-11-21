@@ -35,7 +35,7 @@ def get():
 
     return jsonify(users)
 
-@users.route('/<id>', methods=['DELETE'])
+@users.route('/<int:id>', methods=['DELETE'])
 def delete(id):
 
     db = mysql.get_db()
@@ -86,7 +86,7 @@ def put():
         }
     })
 
-@users.route('/<id>', methods=['POST'])
+@users.route('/<int:id>', methods=['POST'])
 def post(id):
     user = request.json
 
