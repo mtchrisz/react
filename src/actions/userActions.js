@@ -1,12 +1,10 @@
-import uuid from 'uuid';
-
 export const FETCH_USERS = "FETCH_USERS";
 export const ADD_USER = "ADD_USER";
 export const DELETE_USER = "DELETE_USER";
 export const MODIFY_USER = "MODIFY_USER";
 
 export const fetchUsers = () => dispatch => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('http://192.168.0.247:5000/users/')
         .then(res => res.json())
         .then(data => dispatch({
             type: FETCH_USERS,
@@ -15,52 +13,51 @@ export const fetchUsers = () => dispatch => {
     )
 };
 
-// Simulate the PUT call
 export const addUser = (newUser) => dispatch => {
-    dispatch({
-        type: ADD_USER,
-        payload: {
-            id: uuid.v4(),
-            ...newUser,
-            address: {
-                street: newUser.street || '',
-                suite: '',
-                city: newUser.city,
-                zipcode: newUser.zipcode,
-            },
-            company: {
-                name: newUser.company
-            }
-        }
-    });
+    fetch('http://192.168.0.247:5000/users/', {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: ADD_USER,
+            payload: data
+        })
+    );
 };
 
-// Simulate the DELETE call
 export const deleteUser = (oldUser) => dispatch => {
-    dispatch({
-        type: DELETE_USER,
-        payload: {
-            id: oldUser.id
-        }
-    });
+    fetch(`http://192.168.0.247:5000/users/${oldUser.id}`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: DELETE_USER,
+            payload: {
+                id: data.id
+            }
+        })
+    );
 };
 
-// Simulate the POST call
 export const modifyUser = (oldUser, newUser) => dispatch => {
-    dispatch({
-        type: MODIFY_USER,
-        payload: {
-            id: oldUser.id,
-            ...newUser,
-            address: {
-                street: newUser.street || '',
-                suite: '',
-                city: newUser.city,
-                zipcode: newUser.zipcode,
-            },
-            company: {
-                name: newUser.company
-            }
-        }
-    });
+    fetch(`http://192.168.0.247:5000/users/${oldUser.id}`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: MODIFY_USER,
+            payload: data
+        })
+    );
 };

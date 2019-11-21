@@ -13,9 +13,9 @@ class UserList extends Component {
     render() {
         const table = {
             columns: [
-                { title: 'ID', field: 'id', hidden: true },
-                { title: 'Name', field: 'name' },
-                { title: 'Username', field: 'username' },
+                { title: 'ID', field: 'id', hidden: true},
+                { title: 'Name', field: 'name'},
+                { title: 'Username', field: 'username'},
                 { title: 'Email', field: 'email'},
                 { title: 'Phone', field: 'phone'},
                 { title: 'Website', field: 'website'},
@@ -28,7 +28,7 @@ class UserList extends Component {
                 return {
                     ...user,
                     ...user.address,
-                    street: `${user.address.street} ${user.address.suite}`,
+                    street: user.address.street,
                     company: user.company.name
                 }
             })
