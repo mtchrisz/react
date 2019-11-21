@@ -86,6 +86,40 @@ def put():
         }
     })
 
-@users.route('/', methods=['POST'])
-def post():
-    pass
+@users.route('/<id>', methods=['POST'])
+def post(id):
+    user = request.json
+
+    name = user.get("name", None)
+    username = user.get("username", None)
+    email = user.get("email", None)
+    phone = user.get("phone", None)
+    website = user.get("website", None)
+    street = user.get("street", None)
+    suite = user.get("suite", None)
+    city = user.get("city", None)
+    zipcode = user.get("zipcode", None)
+    company = user.get("company", None)
+
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("""update users set name = %s, username = %s, email = %s, phone = %s, website = %s, street = %s, suite = %s, city = %s, zipcode = %s, company = %s where id = %s""", (name, username, email, phone, website, street, suite, city, zipcode, company, id))
+    db.commit()
+
+    return jsonify({
+        'id': id,
+        'name': name,
+        'username': username,
+        'email': email,
+        'phone': phone,
+        'website': website,
+        'address': {
+            'street': street,
+            'suite': suite,
+            'city': city,
+            'zipcode': zipcode
+        },
+        'company': {
+            'name': company
+        }
+    })
