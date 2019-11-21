@@ -1,5 +1,5 @@
 from app import app
-from user.routes import users
+from users.routes import users
 
 app.register_blueprint(users)
 
